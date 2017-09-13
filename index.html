@@ -1,1 +1,44 @@
-Hello World !
+<html>
+  <head>
+      <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+     
+    <script src="https://blockexplorer.com/socket.io/socket.io.js"></script>
+  </head>
+<body>
+   
+  <script>
+   eventToListenTo = 'tx'
+   room = 'inv'
+  
+   var socket = io("https://blockexplorer.com/");
+   socket.on('connect', function() {
+     // Join the room.
+     socket.emit('subscribe', room);
+   })
+   socket.on(eventToListenTo, function(data) {
+     console.log("New transaction received: " + data.txid);
+     $('#display').html(data.txid);
+   })
+   jQuery(function($){
+     var lsDisplay = $('ul.display')
+    socket.on('tx', function(valuraOut){
+       
+       lsDisplay.prepend('<li>' + 'Value: '+ valuraOut.valueOut +'</li>');
+       if(valuraOut.valueOut >=0.5){
+       console.log("value: "+ valuraOut.valueOut);
+       
+       //alert("Gia tri dot bien");
+       
+       }
+    })
+
+   })
+   
+  
+    //-------------------------------------------------------------
+  
+  </script>
+ <p></p>
+ <ul class="display"></ul>
+</body>
+  
